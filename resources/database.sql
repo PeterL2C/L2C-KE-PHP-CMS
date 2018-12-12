@@ -21,3 +21,5 @@ ALTER TABLE `Pages` ADD CONSTRAINT fk_Pages_Users_idx FOREIGN KEY Pages(`User_ID
 
 
 INSERT INTO `Users` (`email`, `password`, `nickname`) VALUES ("admin@admin.sk", "Administrator", "Admin);
+INSERT INTO `Users` (`email`, `password`, `nickname`) VALUES ("janko@admin.sk", "Janko", "Jan");
+INSERT INTO `Users` (`email`, `password`, `nickname`) VALUES ("durko@admin.sk", "Duro", "Durko");
