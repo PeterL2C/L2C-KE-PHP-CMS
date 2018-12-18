@@ -1,3 +1,35 @@
+<?php
+require dirname(__FILE__)."/../framework/helpers.php";
+if(!empty($_POST)){
+	if(!empty($_POST['action'])){
+		switch($_POST['action']){
+			case 'insert':
+				if(!empty($_POST['title'] && $_POST['content'] && $_POST['User_ID'] && $_POST['menu_label'] && $_POST['menu_order'] )){
+                    // db_query() > INSERT INTO
+                    db_query("INSERT INTO `pages` (`title`, `content`, `User_ID`, `menu_label`, `menu_order`) VALUES ('".($_POST['title'])."','".($_POST['content'])."','".($_POST['User_ID'])."','".($_POST['menu_label'])."','".($_POST['menu_order'])."')");
+                }
+				
+			break;
+			case 'update':
+				if(!empty($_POST['ID'])){
+					if(!empty($_POST['title'] && $_POST['content'] && $_POST['User_ID'] && $_POST['menu_label'] && $_POST['menu_order'] )){
+                    // db_query() > UPDATE Users SET ...
+                    db_query("UPDATE `pages` SET 'title'='".($_POST['title'])."','content'='".($_POST['content'])."','User_ID'='".($_POST['User_ID'])."','menu_label'='".($_POST['menu_label'])."','menu_order'='".($_POST['menu_order'])."' WHERE ID='".($_POST['ID'])."'");
+                    }
+				}
+				
+			break;
+			case 'delete':
+				if(!empty($_POST['ID'])){
+                // db_query() > DELETE FROM Users ...
+                db_query("DELETE FROM `pages` WHERE ID='".($_POST['ID'])."'");
+                }
+			break;
+		}
+	}
+}
+$pages = db_select("SELECT * FROM pages");
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -17,19 +49,37 @@
 			<div class="row">
 				<div class="col-sm-12 col-md-12 main">
 					<h1 class="page-header">Pages</h1>
+                    <!-- ERROR !!!!  -->
+                    
+                    <a href="page.php?id=<?php echo $page->id ?>">Add New Page</a>
+
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>column</th>
-									<th>column</th>
-									<th>column</th>
+									<th>ID</th>
+									<th>Title</th>
+									<th>Content</th>
+                                    <th>User_ID</th>
+									<th>menu_label</th>
+									<th>menu_order</th>
 								</tr>
 							</thead>
 							<tbody>
-								<!-- add PHP here -->
-								
-								<!-- add PHP here -->
+
+                            <?php foreach($pages as $page){ ?>
+                                    
+                                    <tr>
+                                        <td> <?php echo $page->ID; ?> </td>
+                                        <td> <?php echo $page->title; ?> </td>
+                                        <td> <?php echo $page->content; ?> </td>
+                                        <td> <?php echo $page->User_ID; ?> </td>
+                                        <td> <?php echo $page->menu_label; ?> </td>
+                                        <td> <?php echo $page->menu_order; ?> </td>
+                                    </tr>
+                                
+                                <?php } ?>
+
 							</tbody>
 						</table>
 					</div>

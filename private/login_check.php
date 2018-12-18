@@ -14,7 +14,10 @@ if(!empty($_POST)){
 
             if($user->password === $_POST['password']){
                 // email aj heslo suhlasia
-                echo $user->email;
+                session_start();
+                $_SESSION["email"] = $_POST['email'];
+                header('Location: index.php');
+
             } else {
                 echo "nesuhlasi heslo";
                 

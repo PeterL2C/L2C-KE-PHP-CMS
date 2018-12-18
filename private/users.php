@@ -1,6 +1,37 @@
 <?php
+require_once dirname(__FILE__)."/../framework/loggedin.php";
 require dirname(__FILE__)."/../framework/helpers.php";
+if(!empty($_POST)){
+	if(!empty($_POST['action'])){
+		switch($_POST['action']){
+			case 'insert':
+				if(!empty($_POST['email'] && $_POST['password'] && $_POST['nickname'] )){
+                    // db_query() > INSERT INTO
+                    db_query("INSERT INTO `users` (`email`, `password`, `nickname`) VALUES ('".($_POST['email'])."','".($_POST['password'])."','".($_POST['nickname'])."')");
+                }
+				
+			break;
+			case 'update':
+				if(!empty($_POST['ID'])){
+					if(!empty($_POST['email'] && $_POST['nickname'])){
+                    // db_query() > UPDATE Users SET ...
+                    db_query("UPDATE `users` SET 'email'='".($_POST['email'])."','nickname'='".($_POST['nickname'])."' WHERE ID='".($_POST['ID'])."'");
+                    }
+				}
+				
+			break;
+			case 'delete':
+				if(!empty($_POST['ID'])){
+                // db_query() > DELETE FROM Users ...
+                db_query("DELETE FROM `users` WHERE ID='".($_POST['ID'])."'");
+                }
+			break;
+		}
+	}
+}
 $users = db_select("SELECT * FROM users");
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,18 +53,23 @@ $users = db_select("SELECT * FROM users");
 			<div class="row">
 				<div class="col-sm-12 col-md-12 main">
 					<h1 class="page-header">Users</h1>
+                    <!-- ERROR !!!!  -->
+                    
+                    <a href="user.php?id=<?php echo $user->id ?>">Add New User</a>
+
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>ID</th>
 									<th>Email</th>
-									<th>Nickname</th>
+									<th>Nickname</th> 
 								</tr>
 							</thead>
 							<tbody>
 								
                                 <?php foreach($users as $user){ ?>
+                                    
                                     <tr>
                                         <td> <?php echo $user->ID; ?> </td>
                                         <td> <?php echo $user->email; ?> </td>
@@ -41,11 +77,7 @@ $users = db_select("SELECT * FROM users");
                                     </tr>
                                 
                                 <?php } ?>
-
-                                    
-                               
-                                
-								<!-- add PHP here -->
+                                                                                     			
 							</tbody>
 						</table>
 					</div>
