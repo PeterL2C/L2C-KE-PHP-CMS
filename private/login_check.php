@@ -16,6 +16,7 @@ if(!empty($_POST)){
                 // email aj heslo suhlasia
                 session_start();
                 $_SESSION["email"] = $user->email;
+                
                 $_SESSION["id"] = $user->ID;
                 header('Location: index.php');
 

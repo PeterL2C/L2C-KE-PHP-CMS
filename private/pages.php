@@ -48,8 +48,10 @@ if(!empty($_POST)){
                 }
 			break;
 		}
+		header('Location: pages.php');
 	}
 }
+
 $pages = db_select("SELECT * FROM pages");
 ?>
 <!DOCTYPE html>
@@ -66,7 +68,7 @@ $pages = db_select("SELECT * FROM pages");
 	</head>
 
 	<body>
-
+	<?php require_once dirname(__FILE__)."/parts/header.php"; ?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12 col-md-12 main">
@@ -85,6 +87,8 @@ $pages = db_select("SELECT * FROM pages");
                                     <th>User_ID</th>
 									<th>menu_label</th>
 									<th>menu_order</th>
+									<th>AUTHOR</th>
+									<th>ACTIONS</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -98,6 +102,12 @@ $pages = db_select("SELECT * FROM pages");
                                         <td> <?php echo $page->User_ID; ?> </td>
                                         <td> <?php echo $page->menu_label; ?> </td>
                                         <td> <?php echo $page->menu_order; ?> </td>
+										<?php
+										$user_result = db_query("SELECT * FROM users WHERE id=".$page->User_ID);
+										$user = mysqli_fetch_object($user_result);
+										?>
+										<td><a href="user.php?ID=<?php echo  $user->ID ?>"><?php echo  $user->nickname ?></a> </td>
+										<td> <a href="page.php?ID=<?php echo  $page->ID ?>">Update</a> </td>
                                     </tr>
                                 
                                 <?php } ?>

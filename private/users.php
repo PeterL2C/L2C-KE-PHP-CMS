@@ -43,8 +43,10 @@ if(!empty($_POST)){
                 }
 			break;
 		}
+		header('Location: pages.php');
 	}
 }
+
 $users = db_select("SELECT * FROM users");
 
 
@@ -64,7 +66,7 @@ $users = db_select("SELECT * FROM users");
 	</head>
 
 	<body>
-
+	<?php require_once dirname(__FILE__)."/parts/header.php"; ?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12 col-md-12 main">
@@ -80,6 +82,7 @@ $users = db_select("SELECT * FROM users");
 									<th>ID</th>
 									<th>Email</th>
 									<th>Nickname</th> 
+									<th>ACTIONS</th> 
 								</tr>
 							</thead>
 							<tbody>
@@ -90,6 +93,7 @@ $users = db_select("SELECT * FROM users");
                                         <td> <?php echo $user->ID; ?> </td>
                                         <td> <?php echo $user->email; ?> </td>
                                         <td> <?php echo $user->nickname; ?> </td>
+										<td> <a href="user.php?ID=<?php echo  $user->ID ?>">Update</a>  </td>
                                     </tr>
                                 
                                 <?php } ?>

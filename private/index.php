@@ -15,7 +15,7 @@ require_once dirname(__FILE__)."/../framework/loggedin.php";
 	</head>
 
 	<body>
-
+		<?php require_once dirname(__FILE__)."/parts/header.php"; ?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-12 col-md-12 main">
