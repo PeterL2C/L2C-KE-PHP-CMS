@@ -5,25 +5,41 @@ if(!empty($_POST)){
 	if(!empty($_POST['action'])){
 		switch($_POST['action']){
 			case 'insert':
-				if(!empty($_POST['email'] && $_POST['password'] && $_POST['nickname'] )){
+			echo "here";
+				if(!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['nickname'] )){
                     // db_query() > INSERT INTO
-                    db_query("INSERT INTO `users` (`email`, `password`, `nickname`) VALUES ('".($_POST['email'])."','".($_POST['password'])."','".($_POST['nickname'])."')");
+                    db_query(
+						sprintf("INSERT INTO `users` (`email`, `password`, `nickname`) VALUES ('%s','%s','%s')",
+						$_POST['email'],
+						$_POST['password'],
+						$_POST['nickname']
+						)
+					);
                 }
 				
 			break;
 			case 'update':
-				if(!empty($_POST['ID'])){
-					if(!empty($_POST['email'] && $_POST['nickname'])){
-                    // db_query() > UPDATE Users SET ...
-                    db_query("UPDATE `users` SET 'email'='".($_POST['email'])."','nickname'='".($_POST['nickname'])."' WHERE ID='".($_POST['ID'])."'");
+				if(!empty($_POST['id'])){
+					if(!empty($_POST['email']) && !empty($_POST['nickname'])){
+					// db_query() > UPDATE Users SET ...
+					$db_query = sprintf("UPDATE `users` SET `email`= '%s', `nickname`= '%s'  WHERE ID= %d",
+						$_POST['email'],
+						$_POST['nickname'],
+						$_POST['id']
+					);
+                    db_query($db_query);
                     }
 				}
 				
 			break;
 			case 'delete':
-				if(!empty($_POST['ID'])){
+				if(!empty($_POST['id'])){
                 // db_query() > DELETE FROM Users ...
-                db_query("DELETE FROM `users` WHERE ID='".($_POST['ID'])."'");
+                db_query(
+					sprintf("DELETE FROM Users WHERE ID=%d",
+						$_POST['id']
+					)
+					);
                 }
 			break;
 		}
@@ -55,7 +71,7 @@ $users = db_select("SELECT * FROM users");
 					<h1 class="page-header">Users</h1>
                     <!-- ERROR !!!!  -->
                     
-                    <a href="user.php?id=<?php echo $user->id ?>">Add New User</a>
+                    <a href="user.php">Add New User</a>
 
 					<div class="table-responsive">
 						<table class="table table-striped">

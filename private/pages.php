@@ -1,28 +1,50 @@
 <?php
+require_once dirname(__FILE__)."/../framework/loggedin.php";
 require dirname(__FILE__)."/../framework/helpers.php";
 if(!empty($_POST)){
 	if(!empty($_POST['action'])){
 		switch($_POST['action']){
 			case 'insert':
-				if(!empty($_POST['title'] && $_POST['content'] && $_POST['User_ID'] && $_POST['menu_label'] && $_POST['menu_order'] )){
+			echo "here";
+			var_dump($_POST);
+				if(!empty($_POST['title']) && !empty($_POST['content']) && !empty($_POST['user_id']) && !empty($_POST['menu_label']) && !empty($_POST['menu_order']) ){
                     // db_query() > INSERT INTO
-                    db_query("INSERT INTO `pages` (`title`, `content`, `User_ID`, `menu_label`, `menu_order`) VALUES ('".($_POST['title'])."','".($_POST['content'])."','".($_POST['User_ID'])."','".($_POST['menu_label'])."','".($_POST['menu_order'])."')");
+					$db_query =sprintf("INSERT INTO `pages` (`title`, `content`, `User_ID`, `menu_label`, `menu_order`) VALUES ('%s','%s',%d,'%s',%d)",
+						$_POST['title'],
+						$_POST['content'],
+						$_POST['user_id'],
+						$_POST['menu_label'],
+						$_POST['menu_order']
+				);
+				var_dump($db_query);
+						db_query($db_query);
                 }
 				
 			break;
 			case 'update':
-				if(!empty($_POST['ID'])){
-					if(!empty($_POST['title'] && $_POST['content'] && $_POST['User_ID'] && $_POST['menu_label'] && $_POST['menu_order'] )){
+				if(!empty($_POST['id'])){
+					if(!empty($_POST['title'] && !empty($_POST['content']) && !empty($_POST['user_id']) && $_POST['menu_label'] && $_POST['menu_order'] )){
                     // db_query() > UPDATE Users SET ...
-                    db_query("UPDATE `pages` SET 'title'='".($_POST['title'])."','content'='".($_POST['content'])."','User_ID'='".($_POST['User_ID'])."','menu_label'='".($_POST['menu_label'])."','menu_order'='".($_POST['menu_order'])."' WHERE ID='".($_POST['ID'])."'");
-                    }
+					$db_query = sprintf("UPDATE `pages` SET `title`= '%s', `content`= '%s', `User_ID`= '%s', `menu_label`= '%s', `menu_order`= '%s'  WHERE ID= %d",
+					$_POST['title'],
+					$_POST['content'],
+					$_POST['user_id'],
+					$_POST['menu_label'],
+					$_POST['menu_order'],
+					$_POST['id']
+				);
+				db_query($db_query);
 				}
-				
+			}
 			break;
 			case 'delete':
-				if(!empty($_POST['ID'])){
+				if(!empty($_POST['id'])){
                 // db_query() > DELETE FROM Users ...
-                db_query("DELETE FROM `pages` WHERE ID='".($_POST['ID'])."'");
+                db_query(
+					sprintf("DELETE FROM pages WHERE ID=%d",
+						$_POST['id']
+					)
+					);
                 }
 			break;
 		}
@@ -51,7 +73,7 @@ $pages = db_select("SELECT * FROM pages");
 					<h1 class="page-header">Pages</h1>
                     <!-- ERROR !!!!  -->
                     
-                    <a href="page.php?id=<?php echo $page->id ?>">Add New Page</a>
+                    <a href="page.php">Add New Page</a>
 
 					<div class="table-responsive">
 						<table class="table table-striped">

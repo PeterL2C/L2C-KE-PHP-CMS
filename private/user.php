@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__)."/../framework/loggedin.php";
 require dirname(__FILE__)."/../framework/helpers.php";
 if(!empty($_REQUEST['ID'])){
     $users = db_select( sprintf("SELECT * FROM Users WHERE ID = '%d'", $_REQUEST['ID']));
@@ -31,7 +32,7 @@ if(!empty($_REQUEST['ID'])){
 					<h1 class="page-header"><input value="<?php echo !empty($user)? "Update user" : "New User" ?>"></h1>
 
 					<form class="form-signin" method="POST" action="users.php">
-						<input type="hidden" name="action" value="<?php echo empty($user)? "Insert" : "Update" ?>">
+						<input type="hidden" name="action" value="<?php echo empty($user)? "insert" : "update" ?>">
 						<input type="hidden" name="id" value="<?php echo !empty($user)? $user->ID : "" ?>">
 
 						<label for="email" class="sr-only">Email address</label>
